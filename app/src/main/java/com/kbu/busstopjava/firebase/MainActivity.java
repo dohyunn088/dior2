@@ -3,6 +3,9 @@ package com.kbu.busstopjava.firebase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -19,13 +22,17 @@ import com.google.zxing.integration.android.IntentResult;
 public class MainActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> barcodeLauncher;
     int siteCount = 0;
-    int maxSite = 28;
+    int maxSite = 4;
     String tag = "diorTAG";
+    Button btn;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        textView = findViewById(R.id.textview);
 
         startQRCodeScan();
     }
@@ -49,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
                     startQRCodeScan();
                 } else {
                     Toast.makeText(this, "남은 좌석이 없습니다.", Toast.LENGTH_SHORT).show();
+                    textView.setText("남은 좌석이 없습니다.");
+                    btn.setEnabled(true);
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startQRCodeScan();
+                        }
+                    });
                 }
             }
         }
